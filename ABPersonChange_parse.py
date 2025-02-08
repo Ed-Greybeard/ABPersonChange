@@ -6,7 +6,6 @@ class ABPerson:
     first: str
     last: str
     guid: str
-    note: str
     created: str
     modified: str
 
@@ -17,7 +16,7 @@ curr = db.cursor()
 
 COCOA_CONST = 978307200
 
-sql = f"select first, last, guid, Note," \
+sql = f"select first, last, guid, " \
       f"datetime(CreationDate + {COCOA_CONST}, 'UNIXEPOCH') as Created, " \
       f"datetime(ModificationDate + {COCOA_CONST}, 'UNIXEPOCH') as Modified " \
       f"from ABPerson"
@@ -25,8 +24,8 @@ sql = f"select first, last, guid, Note," \
 person_dict = {}
 
 for result in curr.execute(sql).fetchall():
-    first, last, guid, note, created, modified = result
-    ab_person = ABPerson(first, last, guid, note, created, modified)
+    first, last, guid, created, modified = result
+    ab_person = ABPerson(first, last, guid, created, modified)
     person_dict[guid] = ab_person
 
 print(person_dict)
@@ -37,7 +36,8 @@ sql = "select type, guid, sequence_number from ABPersonChanges order by sequence
 
 CHANGE_ENUM = {0: 'CREATED', 1: 'MODIFIED', 2: 'DELETED'}
 
-print("Seq\tDatetime\tChange\tGUID\tName\tNote")
+print("| Seq | Datetime | Change | GUID | Name |")
+print("|---|---|---|---|---|")
 
 for result in curr.execute(sql).fetchall():
     change_type, person_guid, sequence_number = result
@@ -46,9 +46,6 @@ for result in curr.execute(sql).fetchall():
     if person_guid in person_dict:
         ab_person = person_dict[person_guid]
         person_name = f"{ab_person.first} {ab_person.last}"
-        note = ab_person.note
-        if note is not None:
-            note = note.replace("\n", " | ")
         if change_type == 0:
             time_of_change = ab_person.created
         else:
@@ -59,4 +56,4 @@ for result in curr.execute(sql).fetchall():
         time_of_change = "UNKNOWN"
         note = ""
 
-    print(f"{sequence_number}\t{time_of_change}\t{change}\t{person_guid}\t{person_name}\t{note}")
+    print(f"|{sequence_number}|{time_of_change}|{change}|{person_guid}|{person_name}|")
