@@ -1,6 +1,8 @@
 # ABPersonChange
 A quick and dirty Python script to track AGPersonChange from iOS AddressBook.sqlitedb.
 
+There may be a time where you can recover notifications from iOS and either the name is inconsistent or does not exist. This might be because the contact was subsequently deleted. the iOS AddressBook.sqlitedb tracks contact deletes, and so you should be able to match the ABPerson GUID of from the notification with the ABPerson GUID in the Addressbook. This should at lats give you some idea about why you can't find that contact any more.
+
 ## Assumptions made:
  - Type 0 is create (tested OK)
  - Type 1 is modify (tested OK but seems to modify for each create)
