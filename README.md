@@ -8,8 +8,6 @@ A quick and dirty Python script to track AGPersonChange from iOS AddressBook.sql
 
 The datetime of each entry is based on the corresponding account GUID in ABPerson. Unfortunately there is only a single modified datetime associated with ABPerson, so any modification loses it's accurate date. I haven't had time to do only include the last modified time, so it just outputs it each time it finds a modification and leaves the rest up to you.
 
-(I've added the Note from the ABPerson table at the end here; this was mainly to verify dates and times during testing. Obviously put whatever you want.)
-
 ## Example Output
 | Seq | Datetime | Change | GUID | Name |
 |---|---|---|---|---|
